@@ -1,0 +1,72 @@
+/* ==========================================================================
+   Tables — model comparison / metrics ledger
+   ========================================================================== */
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ink-700);
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--ink-800);
+  font-size: 13.5px;
+}
+
+.ledger-table thead th {
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--ink-700);
+  background: var(--ink-900);
+  white-space: nowrap;
+}
+
+.ledger-table tbody td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--ink-700);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.ledger-table tbody td:first-child {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--paper-50);
+}
+
+.ledger-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.ledger-table tbody tr:hover {
+  background: var(--ink-700);
+}
+
+.ledger-table tbody tr.champion td:first-child::before {
+  content: "★ ";
+  color: var(--brass-400);
+}
+
+.metric-bar-track {
+  position: relative;
+  width: 90px;
+  height: 6px;
+  background: var(--ink-600);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.metric-bar-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--brass-400);
+  border-radius: 999px;
+}

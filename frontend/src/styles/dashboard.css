@@ -1,0 +1,417 @@
+/* ==========================================================================
+   Ledger — design tokens
+   A loan-underwriting desk aesthetic: deep ink-navy ground, a ledger-paper
+   card surface, warm brass for the "signature" risk dial, and a restrained
+   two-color risk vocabulary (clay = risk, teal = safe). Numbers get their
+   own monospace voice, because in this product the numbers ARE the content.
+   ========================================================================== */
+
+:root {
+  /* Palette */
+  --ink-950: #0b0f17;
+  --ink-900: #10141d;
+  --ink-800: #171d29;
+  --ink-700: #212938;
+  --ink-600: #303a4d;
+  --paper-50: #f3efe6;
+  --paper-100: #e9e3d4;
+  --brass-400: #d4a15a;
+  --brass-300: #e3bd85;
+  --teal-400: #4fa695;
+  --clay-400: #e0645a;
+  --text-primary: #ece8de;
+  --text-secondary: #a9aebd;
+  --text-muted: #6e7386;
+
+  /* Type */
+  --font-display: "Newsreader", Georgia, serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Layout */
+  --sidebar-w: 248px;
+  --navbar-h: 64px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ink-950);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--brass-400);
+  color: var(--ink-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass-300);
+  outline-offset: 2px;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------- */
+/* App shell                                                               */
+/* ---------------------------------------------------------------------- */
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: var(--navbar-h) 1fr;
+  grid-template-areas:
+    "sidebar navbar"
+    "sidebar main";
+  min-height: 100vh;
+}
+
+.app-main {
+  grid-area: main;
+  padding: 32px 40px 64px;
+  max-width: 1280px;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--navbar-h) auto 1fr;
+    grid-template-areas:
+      "navbar"
+      "sidebar"
+      "main";
+  }
+  .app-main {
+    padding: 24px 18px 48px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Navbar                                                                  */
+/* ---------------------------------------------------------------------- */
+.navbar {
+  grid-area: navbar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: var(--ink-900);
+  border-bottom: 1px solid var(--ink-700);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar__title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--paper-50);
+}
+
+.navbar__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  box-shadow: 0 0 0 3px transparent;
+}
+
+.status-dot.online {
+  background: var(--teal-400);
+  box-shadow: 0 0 0 3px rgba(79, 166, 149, 0.18);
+}
+
+.status-dot.offline {
+  background: var(--clay-400);
+  box-shadow: 0 0 0 3px rgba(224, 100, 90, 0.18);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Sidebar                                                                 */
+/* ---------------------------------------------------------------------- */
+.sidebar {
+  grid-area: sidebar;
+  background: var(--ink-900);
+  border-right: 1px solid var(--ink-700);
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar__brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 10px 22px;
+  font-family: var(--font-display);
+}
+
+.sidebar__brand-mark {
+  color: var(--brass-400);
+  font-size: 22px;
+}
+
+.sidebar__brand-name {
+  font-size: 17px;
+  color: var(--paper-50);
+}
+
+.sidebar__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 10px 6px;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar__link:hover {
+  background: var(--ink-800);
+  color: var(--text-primary);
+}
+
+.sidebar__link.active {
+  background: var(--ink-700);
+  color: var(--paper-50);
+}
+
+.sidebar__link.active .sidebar__icon {
+  color: var(--brass-400);
+}
+
+.sidebar__icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Page header                                                            */
+/* ---------------------------------------------------------------------- */
+.page-header {
+  margin-bottom: 28px;
+}
+
+.page-header__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass-400);
+  margin: 0 0 6px;
+}
+
+.page-header__title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--paper-50);
+  margin: 0 0 8px;
+}
+
+.page-header__desc {
+  color: var(--text-secondary);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Cards & grid                                                            */
+/* ---------------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 980px) {
+  .grid--2,
+  .grid--3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--ink-800);
+  border: 1px solid var(--ink-700);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.card__label {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 10px;
+}
+
+.card__value {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--paper-50);
+  margin: 0;
+}
+
+.card__caption {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 8px 0 0;
+}
+
+.card--risk .card__value {
+  color: var(--clay-400);
+}
+
+.card--safe .card__value {
+  color: var(--teal-400);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Risk dial (signature element)                                          */
+/* ---------------------------------------------------------------------- */
+.risk-dial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.risk-dial__figure {
+  position: relative;
+  width: 220px;
+  height: 130px;
+}
+
+.risk-dial__needle {
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: 110px 110px;
+}
+
+.risk-dial__reading {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--paper-50);
+}
+
+.risk-dial__verdict {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.01em;
+}
+
+.risk-dial__verdict.risk {
+  color: var(--clay-400);
+}
+
+.risk-dial__verdict.safe {
+  color: var(--teal-400);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Section headings & misc                                                */
+/* ---------------------------------------------------------------------- */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--paper-50);
+  margin: 0 0 16px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--ink-700);
+  color: var(--text-secondary);
+}
+
+.badge--brass {
+  background: rgba(212, 161, 90, 0.14);
+  color: var(--brass-300);
+}
+
+.chart-caption {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.empty-state__title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--paper-50);
+  margin: 0 0 8px;
+}

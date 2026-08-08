@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Forms — the loan-application intake form
+   ========================================================================== */
+
+.form-card {
+  background: var(--ink-800);
+  border: 1px solid var(--ink-700);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px 20px;
+}
+
+@media (max-width: 980px) {
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field--span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .field--span-2 {
+    grid-column: span 1;
+  }
+}
+
+.field label {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  background: var(--ink-900);
+  border: 1px solid var(--ink-600);
+  border-radius: var(--radius-md);
+  padding: 9px 12px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: border-color 0.15s ease;
+}
+
+.field input::placeholder {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
+.field select {
+  font-family: var(--font-body);
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--brass-400);
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ink-700);
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: var(--brass-400);
+  color: var(--ink-950);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn--primary:disabled {
+  background: var(--ink-600);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--ink-600);
+}
+
+.btn--ghost:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.form-error {
+  background: rgba(224, 100, 90, 0.1);
+  border: 1px solid rgba(224, 100, 90, 0.35);
+  color: #f0a9a3;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}

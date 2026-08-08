@@ -1,0 +1,22 @@
+# Core ML / data
+numpy
+pandas
+scikit-learn
+xgboost
+joblib
+
+# Plotting
+matplotlib
+seaborn
+
+# Backend API
+fastapi
+uvicorn[standard]
+pydantic
+
+# Orchestration
+apache-airflow
+
+# Notebook support
+jupyter
+ipykernel
