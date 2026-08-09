@@ -105,7 +105,7 @@ jobs:
   # Docker
   # ==========================================================
 
-  docker:
+   docker:
 
   name: Build ML Docker Image
 
