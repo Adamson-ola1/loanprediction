@@ -34,6 +34,8 @@ coverage.xml
 frontend/.env
 frontend/.env.local
 frontend/.env.*.local
+# Keep environment template
+!frontend/.env.example
 
 # Docker environment
 docker/.env
