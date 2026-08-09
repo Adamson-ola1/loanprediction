@@ -5,22 +5,38 @@
 # Build from the project root:
 #   docker build -f docker/airflow.Dockerfile -t loan-prediction-airflow .
 # ==============================================================================
-FROM apache/airflow:2.9.3-python3.12
+FROM apache/airflow:2.10.5-python3.11
 
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential \
+# System dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
 USER airflow
 
-WORKDIR /opt/airflow
+WORKDIR /opt/loanprediction
 
-COPY requirements.txt /tmp/requirements.txt
-# apache-airflow itself is already provided by the base image.
-RUN grep -vi "^apache-airflow" /tmp/requirements.txt > /tmp/requirements.project.txt \
-    && pip install --no-cache-dir -r /tmp/requirements.project.txt
+# Install project dependencies
+COPY --chown=airflow:root requirements.txt /tmp/requirements.txt
 
-# Project code the DAG imports (config.py, src/) plus the DAG itself.
-COPY config.py ./config.py
-COPY src/ ./src/
-COPY airflow/dags/ ./dags/
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Copy project code required by the DAG
+COPY --chown=airflow:root src/ ./src/
+COPY --chown=airflow:root models/ ./models/
+COPY --chown=airflow:root config.py .
+COPY --chown=airflow:root airflow/ ./airflow/
+
+# Make project importable
+ENV PYTHONPATH=/opt/loanprediction
+
+# Airflow configuration
+ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
+ENV AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
+
+EXPOSE 8080
+
+CMD ["airflow", "webserver"]
+
+CMD ["airflow", "webserver"]
