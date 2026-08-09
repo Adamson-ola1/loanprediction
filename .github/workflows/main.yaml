@@ -107,44 +107,37 @@ jobs:
 
   docker:
 
-    name: Build ML Docker Image
+  name: Build ML Docker Image
 
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
-    needs:
+  needs:
+    - backend
+    - frontend
 
-      - backend
-      - frontend
+  steps:
 
-    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Convert repository name to lowercase
+      id: repo
+      run: |
+        echo "repository=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-
-        with:
-
-          registry: ghcr.io
-
-          username: ${{ github.actor }}
-
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v6
-
-        with:
-
-          context: .
-
-          file: ./Dockerfile
-
-          push: true
-
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: |
+          ghcr.io/${{ steps.repo.outputs.repository }}:latest
+          ghcr.io/${{ steps.repo.outputs.repository }}:${{ github.sha }}
