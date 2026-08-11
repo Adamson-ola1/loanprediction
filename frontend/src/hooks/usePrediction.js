@@ -1,35 +1,43 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { predictLoan } from "../api/client";
 
-/**
- * Encapsulates the request lifecycle (loading / error / result) for a single
- * loan-application prediction, so pages can stay focused on layout.
- */
-export function usePrediction() {
+export function useLoanPrediction() {
   const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const submit = useCallback(async (application) => {
+  const predict = async (application) => {
     setLoading(true);
-    setError(null);
+    setError("");
+    setResult(null);
+
     try {
-      const res = await predictLoan(application);
-      setResult(res);
-      return res;
+      const response = await predictLoan(application);
+      setResult(response);
+      return response;
     } catch (err) {
-      setError(err.message || "Prediction failed");
-      setResult(null);
-      return null;
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Prediction failed. Please try again.";
+
+      setError(message);
+      throw err;
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setResult(null);
-    setError(null);
-  }, []);
+    setError("");
+  };
 
-  return { result, error, loading, submit, reset };
+  return {
+    result,
+    loading,
+    error,
+    predict,
+    reset,
+  };
 }
