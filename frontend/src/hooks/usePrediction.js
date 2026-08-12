@@ -1,15 +1,14 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { predictLoan } from "../api/client";
 
-export function useLoanPrediction() {
+export function usePrediction() {
   const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const predict = async (application) => {
+  const submit = useCallback(async (application) => {
     setLoading(true);
-    setError("");
-    setResult(null);
+    setError(null);
 
     try {
       const response = await predictLoan(application);
@@ -22,22 +21,24 @@ export function useLoanPrediction() {
           : "Prediction failed. Please try again.";
 
       setError(message);
-      throw err;
+      setResult(null);
+
+      return null;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setResult(null);
-    setError("");
-  };
+    setError(null);
+  }, []);
 
   return {
     result,
-    loading,
     error,
-    predict,
+    loading,
+    submit,
     reset,
   };
 }
