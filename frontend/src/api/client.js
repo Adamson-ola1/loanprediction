@@ -43,3 +43,4 @@ export function predictBatch(applications) {
     body: JSON.stringify({ applications }),
   });
 }
+
