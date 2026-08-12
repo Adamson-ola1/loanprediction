@@ -72,20 +72,6 @@ data/processed/*
 
 
 # ==========================================================
-# MACHINE LEARNING MODELS
-# ==========================================================
-
-# Production model artifacts are intentionally NOT ignored.
-#
-# Examples:
-# models/*.pkl
-# models/*.joblib
-# models/*.json
-#
-# These files are required by the deployed ML API.
-
-
-# ==========================================================
 # OUTPUTS
 # ==========================================================
 
