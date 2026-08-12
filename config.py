@@ -128,4 +128,8 @@ API_TITLE = "Loan Default Prediction API"
 API_VERSION = "1.0.0"
 API_HOST = "0.0.0.0"
 API_PORT = 8000
-CORS_ORIGINS = ["http://localhost:5173", "http://localhost:3000"]
+CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://loanprediction-frontend.onrender.com",
+]
